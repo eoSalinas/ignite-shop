@@ -3,8 +3,8 @@ import { useKeenSlider } from 'keen-slider/react'
 import Image from 'next/image'
 import { HomeContainer, Product } from '../styles/pages/home'
 
-import camiseta1 from '../assets/camisetas/shirt1.png'
-import camiseta2 from '../assets/camisetas/shirt2.png'
+import camiseta1 from '../assets/camisetas/1.png'
+import camiseta2 from '../assets/camisetas/2.png'
 
 export default function Home() {
   const [sliderRef] = useKeenSlider({
