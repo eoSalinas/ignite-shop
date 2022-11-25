@@ -1,26 +1,71 @@
+import { GetStaticProps } from 'next'
+import Image from 'next/image'
+import Stripe from 'stripe'
+import { stripe } from '../../lib/stripe'
 import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
 } from '../../styles/pages/product'
 
-export default function Product() {
-  // const { query } = useRouter()
+interface ProductProps {
+  product: {
+    id: string
+    name: string
+    imageUrl: string
+    price: string
+    description: string
+  }
+}
 
+export default function Product({ product }: ProductProps) {
   return (
     <ProductContainer>
-      <ImageContainer></ImageContainer>
+      <ImageContainer>
+        <Image src={product.imageUrl} width={520} height={480} alt="" />
+      </ImageContainer>
       <ProductDetails>
-        <h1>Camiseta X</h1>
-        <span>R$ 79,90</span>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel eius
-          tenetur officiis consequuntur dolorem quasi! Iste mollitia aliquid
-          blanditiis cupiditate nemo fugiat eaque incidunt repellendus quas,
-          exercitationem recusandae necessitatibus nesciunt.
-        </p>
+        <h1>{product.name}</h1>
+        <span>{product.price}</span>
+        <p>{product.description}</p>
         <button>Comprar agora</button>
       </ProductDetails>
     </ProductContainer>
   )
+}
+
+export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
+  params,
+}) => {
+  // Estava dando erro no params da const productId
+  // Poderiamos resolver fazendo essa validação (if abaixo) ou colocando stric: false no tsconfig.json
+  if (!params) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const productId = params.id
+
+  const product = await stripe.products.retrieve(productId, {
+    expand: ['default_price'],
+  })
+
+  const price = product.default_price as Stripe.Price
+
+  return {
+    props: {
+      product: {
+        id: product.id,
+        name: product.name,
+        imageUrl: product.images[0],
+        description: product.description,
+        price: new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }).format(price.unit_amount! / 100),
+      },
+    },
+    revalidate: 60 * 60 * 1, // 1 hour
+  }
 }
