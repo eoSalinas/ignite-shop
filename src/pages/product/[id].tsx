@@ -44,7 +44,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   params,
 }) => {
-  // Estava dando erro no params da const productId
+  // Estava dando erro no params da <!--  -->onst productId
   // Poderiamos resolver fazendo essa validação (if abaixo) ou colocando stric: false no tsconfig.json
   if (!params) {
     return {
