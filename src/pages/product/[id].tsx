@@ -37,14 +37,14 @@ export default function Product({ product }: ProductProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [{ params: { id: 'prod_MqqTU3XSD2VT0Z' } }],
-    fallback: false,
+    fallback: true,
   }
 }
 
 export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   params,
 }) => {
-  // Estava dando erro no params da <!--  -->onst productId
+  // Estava dando erro no params da const productId
   // Poderiamos resolver fazendo essa validação (if abaixo) ou colocando stric: false no tsconfig.json
   if (!params) {
     return {
