@@ -7,7 +7,7 @@ export default async function checkout(
 ) {
   const { priceId } = req.body
 
-  if (req.body !== 'POST') {
+  if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed.' })
   }
 
@@ -15,7 +15,7 @@ export default async function checkout(
     return res.status(400).json({ error: 'Price not found.' })
   }
 
-  const succesUrl = `${process.env.NEXT_URL}/success`
+  const succesUrl = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`
   const cancelUrl = `${process.env.NEXT_URL}/`
 
   const checkoutSession = await stripe.checkout.sessions.create({
