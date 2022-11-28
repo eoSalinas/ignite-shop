@@ -5,7 +5,15 @@ export default async function checkout(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const priceId = 'price_1M78miHF0YMnSVhwRgpSOilm'
+  const { priceId } = req.body
+
+  if (req.body !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed.' })
+  }
+
+  if (!priceId) {
+    return res.status(400).json({ error: 'Price not found.' })
+  }
 
   const succesUrl = `${process.env.NEXT_URL}/success`
   const cancelUrl = `${process.env.NEXT_URL}/`
