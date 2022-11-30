@@ -34,6 +34,7 @@ export const ProductDetails = styled('div', {
   h1: {
     fontSize: '$2xl',
     color: '$gray300',
+    marginTop: '1.5rem',
   },
 
   span: {
