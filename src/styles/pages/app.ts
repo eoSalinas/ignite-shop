@@ -18,7 +18,7 @@ export const Header = styled('header', {
   alignItems: 'center',
 })
 
-export const Cart = styled('button', {
+export const CartButton = styled('button', {
   lineHeight: '0', // Make button height the same as icon
   padding: '0.75rem',
   border: 0,
