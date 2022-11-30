@@ -26,24 +26,37 @@ export const Product = styled(Link, {
     objectFit: 'cover',
   },
 
-  footer: {
-    position: 'absolute',
-    bottom: '0.25rem',
-    left: '0.25rem',
-    right: '0.25rem',
-    padding: '2rem',
+  '&:hover': {
+    '>footer': {
+      transform: 'translateY(0%)',
+      opacity: 1,
+    },
+  },
+})
 
-    borderRadius: 6,
+export const PriceTag = styled('footer', {
+  position: 'absolute',
+  bottom: '0.25rem',
+  left: '0.25rem',
+  right: '0.25rem',
+  padding: '2rem',
 
+  borderRadius: 6,
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+
+  // transform: 'translateY(110%)',
+  // opacity: 0,
+  transition: 'all 0.2s ease-in-out',
+
+  div: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
-    transform: 'translateY(110%)',
-    opacity: 0,
-    transition: 'all 0.2s ease-in-out',
+    flexDirection: 'column',
+    gap: '0.25rem',
 
     strong: {
       fontSize: '$lg',
@@ -56,11 +69,19 @@ export const Product = styled(Link, {
       color: '$green300',
     },
   },
+})
+
+export const AddToCartButton = styled('button', {
+  border: 0,
+  lineHeight: 0,
+  padding: '0.75rem',
+  borderRadius: 6,
+  backgroundColor: '$green500',
+  color: '$white',
 
   '&:hover': {
-    footer: {
-      transform: 'translateY(0%)',
-      opacity: 1,
-    },
+    cursor: 'pointer',
+    backgroundColor: '$green300',
+    transition: 'background-color 0.2s',
   },
 })
