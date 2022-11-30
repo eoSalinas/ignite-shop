@@ -11,7 +11,7 @@ import {
 } from './style'
 
 import Image from 'next/image'
-import tshirtExemplo from '../../assets/tshirt-1.png'
+import tshirtExemplo from '../../../../assets/tshirt-1.png'
 
 export default function Cart() {
   return (

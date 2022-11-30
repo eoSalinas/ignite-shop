@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { keyframes, styled } from '../../styles'
+import { keyframes, styled } from '../../../../styles'
 
 // Keyframes
 const TranslateIn = keyframes({
