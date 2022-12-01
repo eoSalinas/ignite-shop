@@ -1,13 +1,25 @@
-import { createContext, ReactNode } from 'react'
+import { createContext, ReactNode, useState } from 'react'
 
 interface CartProviderProps {
   children: ReactNode
 }
 
-interface CartContextType {}
-
+interface CartContextType {
+  cart: Product[]
+}
 export const CartContext = createContext({} as CartContextType)
 
+interface Product {
+  id: string
+  name: string
+  price: number
+  imageUrl: string
+}
+
 export default function CartProvider({ children }: CartProviderProps) {
-  return <CartContext.Provider value={{}}>{children}</CartContext.Provider>
+  const [cart, setCart] = useState<Product[]>([])
+
+  return (
+    <CartContext.Provider value={{ cart }}>{children}</CartContext.Provider>
+  )
 }
