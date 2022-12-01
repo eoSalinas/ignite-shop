@@ -19,7 +19,7 @@ Saiba mais acessando os links abaixo...
 <br>
 
 <p align="center">
-  <img alt="rocketpay" src=".github/preview.jpg" width="100%">
+  <img alt="ignite shop" src=".github/preview.jpg" width="100%">
 </p>
 
 ## 🚀 Tecnologias
