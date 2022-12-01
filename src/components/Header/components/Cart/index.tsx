@@ -1,12 +1,13 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import Image from 'next/image'
-import { X } from 'phosphor-react'
+import { SmileySad, X } from 'phosphor-react'
 import { Product } from '../../../../contexts/CartContext'
 import {
   CartItemList,
   CheckoutButton,
   CloseButton,
   Content,
+  EmptyCart,
   ImageContainer,
   Info,
   Summary,
@@ -18,6 +19,8 @@ interface CartProps {
 }
 
 export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
+  const isCartEmpty = !cart.length
+
   return (
     <Dialog.Portal>
       <Content>
@@ -25,6 +28,12 @@ export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
           <X weight="bold" size={24} />
         </CloseButton>
         <Dialog.Title>Sacola de compras</Dialog.Title>
+        {isCartEmpty && (
+          <EmptyCart>
+            <SmileySad size={50} />
+            <p>Poxa sua sacola está vazia... adicione algo aí!</p>
+          </EmptyCart>
+        )}
 
         <CartItemList>
           {cart.map((item) => {

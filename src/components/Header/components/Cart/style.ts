@@ -178,3 +178,23 @@ export const CheckoutButton = styled('button', {
     transition: 'background-color 0.2s',
   },
 })
+
+export const EmptyCart = styled('div', {
+  height: '100%',
+  padding: '0 5rem',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: '2rem',
+  gap: '0.5rem',
+  textAlign: 'center',
+
+  svg: {
+    color: '$green300',
+  },
+
+  p: {
+    color: '$gray500',
+  },
+})
