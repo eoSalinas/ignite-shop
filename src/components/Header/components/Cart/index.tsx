@@ -2,6 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import Image from 'next/image'
 import { SmileySad, X } from 'phosphor-react'
 import { Product } from '../../../../contexts/CartContext'
+import { currencyFormatter } from '../../../../utils/formatter'
 import {
   CartItemList,
   CheckoutButton,
@@ -19,7 +20,18 @@ interface CartProps {
 }
 
 export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
-  const isCartEmpty = !cart.length
+  const quantityItemsInCart = cart.length
+  const isCartEmpty = !quantityItemsInCart
+
+  const summary = cart.reduce(
+    (acc, product) => {
+      acc.purchaseTotal += product.price
+      return acc
+    },
+    {
+      purchaseTotal: 0,
+    }
+  )
 
   return (
     <Dialog.Portal>
@@ -45,7 +57,7 @@ export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
 
                 <Info>
                   <h3>{item.name}</h3>
-                  <strong>{item.price}</strong>
+                  <strong>{currencyFormatter.format(item.price)}</strong>
                   <button onClick={() => handleRemoveItemFromCart(item.id)}>
                     Remover
                   </button>
@@ -57,10 +69,16 @@ export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
 
         <Summary>
           <p>
-            Quantidade <span>3 itens</span>
+            Quantidade{' '}
+            <span>
+              {quantityItemsInCart === 1
+                ? `${quantityItemsInCart} item`
+                : `${quantityItemsInCart} itens`}
+            </span>
           </p>
           <h4>
-            Valor total <span>R$ 270,00</span>
+            Valor total{' '}
+            <span>{currencyFormatter.format(summary.purchaseTotal)}</span>
           </h4>
 
           <CheckoutButton>Finalizar compra</CheckoutButton>

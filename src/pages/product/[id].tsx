@@ -11,13 +11,14 @@ import {
   ProductContainer,
   ProductDetails,
 } from '../../styles/pages/product'
+import { currencyFormatter } from '../../utils/formatter'
 
 interface ProductProps {
   product: {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
     description: string
     priceId: string
   }
@@ -70,7 +71,7 @@ export default function Product({ product }: ProductProps) {
         </ImageContainer>
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{currencyFormatter.format(product.price)}</span>
           <p>{product.description}</p>
 
           <button
@@ -118,10 +119,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         name: product.name,
         imageUrl: product.images[0],
         description: product.description,
-        price: new Intl.NumberFormat('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        }).format(price.unit_amount! / 100),
+        price: price.unit_amount! / 100,
         priceId: price.id,
       },
     },
