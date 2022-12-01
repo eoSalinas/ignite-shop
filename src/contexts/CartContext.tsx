@@ -22,7 +22,12 @@ export default function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<Product[]>([])
 
   function addProductInCart(item: Product) {
-    setCart((state) => [...state, item])
+    const hasAlreadyThisItem = cart.some((product) => product.id === item.id)
+    if (!hasAlreadyThisItem) {
+      setCart((state) => [...state, item])
+    } else {
+      alert('Você só pode adicionar uma camiseta dessa edição')
+    }
   }
 
   function removeProductFromCart(id: string) {
