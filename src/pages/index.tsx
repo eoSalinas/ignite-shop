@@ -4,13 +4,16 @@ import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Handbag } from 'phosphor-react'
+import { MouseEvent } from 'react'
 import Stripe from 'stripe'
+import { Product } from '../contexts/CartContext'
+import useCart from '../hooks/useCart'
 import { stripe } from '../lib/stripe'
 import {
   AddToCartButton,
   HomeContainer,
   PriceTag,
-  Product,
+  ProductContainer,
 } from '../styles/pages/home'
 
 interface HomeProps {
@@ -23,12 +26,21 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addProductInCart } = useCart()
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 2,
       spacing: 48,
     },
   })
+
+  function handleAddItemInCart(
+    e: MouseEvent<HTMLButtonElement>,
+    item: Product
+  ) {
+    e.preventDefault()
+    addProductInCart(item)
+  }
 
   return (
     <>
@@ -39,7 +51,7 @@ export default function Home({ products }: HomeProps) {
       <HomeContainer ref={sliderRef} className="keen-slider">
         {products.map((product) => {
           return (
-            <Product
+            <ProductContainer
               key={product.id}
               href={`/product/${product.id}`}
               className="keen-slider__slide"
@@ -52,11 +64,13 @@ export default function Home({ products }: HomeProps) {
                   <strong>{product.name}</strong>
                   <span>{product.price}</span>
                 </div>
-                <AddToCartButton>
+                <AddToCartButton
+                  onClick={(e) => handleAddItemInCart(e, product)}
+                >
                   <Handbag weight="bold" size={32} />
                 </AddToCartButton>
               </PriceTag>
-            </Product>
+            </ProductContainer>
           )
         })}
       </HomeContainer>

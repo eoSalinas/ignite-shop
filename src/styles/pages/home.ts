@@ -10,7 +10,7 @@ export const HomeContainer = styled('main', {
   minHeight: 656,
 })
 
-export const Product = styled(Link, {
+export const ProductContainer = styled(Link, {
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
   // padding: '0.25rem', this bug the border in the last slide
