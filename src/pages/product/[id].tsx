@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import Stripe from 'stripe'
+import useCart from '../../hooks/useCart'
 import { stripe } from '../../lib/stripe'
 import {
   ImageContainer,
@@ -25,6 +26,7 @@ interface ProductProps {
 export default function Product({ product }: ProductProps) {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
+  const { addProductInCart } = useCart()
 
   async function handleBuyProduct() {
     try {
@@ -45,6 +47,17 @@ export default function Product({ product }: ProductProps) {
     }
   }
 
+  function handlePutItInTheBag() {
+    const newItem = {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.imageUrl,
+      price: product.price,
+    }
+
+    addProductInCart(newItem)
+  }
+
   return (
     <>
       <Head>
@@ -62,7 +75,7 @@ export default function Product({ product }: ProductProps) {
 
           <button
             disabled={isCreatingCheckoutSession}
-            onClick={handleBuyProduct}
+            onClick={handlePutItInTheBag}
           >
             Colocar na sacola
           </button>
