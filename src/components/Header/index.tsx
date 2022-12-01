@@ -8,10 +8,14 @@ import Cart from './components/Cart'
 import { CartButton, HeaderContainer } from './style'
 
 export default function Header() {
-  const { cart } = useCart()
+  const { cart, removeProductFromCart } = useCart()
 
   const quantityItemsInCart = cart.length
   const isCartEmpty = !quantityItemsInCart
+
+  function handleRemoveItemFromCart(id: string) {
+    removeProductFromCart(id)
+  }
 
   return (
     <HeaderContainer>
@@ -28,7 +32,7 @@ export default function Header() {
           </CartButton>
         </Dialog.Trigger>
 
-        <Cart />
+        <Cart cart={cart} handleRemoveItemFromCart={handleRemoveItemFromCart} />
       </Dialog.Root>
     </HeaderContainer>
   )

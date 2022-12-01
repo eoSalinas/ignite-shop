@@ -7,10 +7,11 @@ interface CartProviderProps {
 interface CartContextType {
   cart: Product[]
   addProductInCart: (item: Product) => void
+  removeProductFromCart: (id: string) => void
 }
 export const CartContext = createContext({} as CartContextType)
 
-interface Product {
+export interface Product {
   id: string
   name: string
   price: string
@@ -24,8 +25,14 @@ export default function CartProvider({ children }: CartProviderProps) {
     setCart((state) => [...state, item])
   }
 
+  function removeProductFromCart(id: string) {
+    setCart((state) => state.filter((product) => product.id !== id))
+  }
+
   return (
-    <CartContext.Provider value={{ cart, addProductInCart }}>
+    <CartContext.Provider
+      value={{ cart, addProductInCart, removeProductFromCart }}
+    >
       {children}
     </CartContext.Provider>
   )

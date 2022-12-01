@@ -1,5 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import Image from 'next/image'
 import { X } from 'phosphor-react'
+import { Product } from '../../../../contexts/CartContext'
 import {
   CartItemList,
   CheckoutButton,
@@ -10,10 +12,12 @@ import {
   Summary,
 } from './style'
 
-import Image from 'next/image'
-import tshirtExemplo from '../../../../assets/tshirt-1.png'
+interface CartProps {
+  cart: Product[]
+  handleRemoveItemFromCart: (id: string) => void
+}
 
-export default function Cart() {
+export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
   return (
     <Dialog.Portal>
       <Content>
@@ -23,17 +27,23 @@ export default function Cart() {
         <Dialog.Title>Sacola de compras</Dialog.Title>
 
         <CartItemList>
-          <section>
-            <ImageContainer>
-              <Image src={tshirtExemplo} width={100} height={100} alt="" />
-            </ImageContainer>
+          {cart.map((item) => {
+            return (
+              <section key={item.id}>
+                <ImageContainer>
+                  <Image src={item.imageUrl} width={100} height={100} alt="" />
+                </ImageContainer>
 
-            <Info>
-              <h3>Camiseta Ignite Lab</h3>
-              <strong>R$ 89,90</strong>
-              <button>Remover</button>
-            </Info>
-          </section>
+                <Info>
+                  <h3>{item.name}</h3>
+                  <strong>{item.price}</strong>
+                  <button onClick={() => handleRemoveItemFromCart(item.id)}>
+                    Remover
+                  </button>
+                </Info>
+              </section>
+            )
+          })}
         </CartItemList>
 
         <Summary>
