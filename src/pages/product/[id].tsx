@@ -1,8 +1,6 @@
-import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
 import Stripe from 'stripe'
 import useCart from '../../hooks/useCart'
 import { stripe } from '../../lib/stripe'
@@ -25,28 +23,7 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false)
   const { addProductInCart } = useCart()
-
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true)
-
-      const response = await axios.post('/api/checkout', {
-        priceId: product.priceId,
-      })
-
-      const { checkoutUrl } = response.data
-
-      window.location.href = checkoutUrl
-    } catch (error) {
-      setIsCreatingCheckoutSession(false)
-      // Conectar com uma ferramenta de obeservalidade (Datadog/Sentry)
-
-      alert('Falha ao redirecionar ao checkout!')
-    }
-  }
 
   function handlePutItInTheBag() {
     const newItem = {
@@ -54,6 +31,7 @@ export default function Product({ product }: ProductProps) {
       name: product.name,
       imageUrl: product.imageUrl,
       price: product.price,
+      priceId: product.priceId,
     }
 
     addProductInCart(newItem)
@@ -74,12 +52,7 @@ export default function Product({ product }: ProductProps) {
           <span>{currencyFormatter.format(product.price)}</span>
           <p>{product.description}</p>
 
-          <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handlePutItInTheBag}
-          >
-            Colocar na sacola
-          </button>
+          <button onClick={handlePutItInTheBag}>Colocar na sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>

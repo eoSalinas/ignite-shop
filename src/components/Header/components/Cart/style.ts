@@ -172,7 +172,12 @@ export const CheckoutButton = styled('button', {
   borderRadius: 8,
   marginTop: '3.4375rem',
 
-  '&:hover': {
+  '&:disabled': {
+    cursor: 'not-allowed',
+    opacity: 0.7,
+  },
+
+  '&:not(disabled):hover': {
     backgroundColor: '$green300',
     cursor: 'pointer',
     transition: 'background-color 0.2s',

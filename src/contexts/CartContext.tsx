@@ -16,6 +16,7 @@ export interface Product {
   name: string
   price: number
   imageUrl: string
+  priceId: string
 }
 
 export default function CartProvider({ children }: CartProviderProps) {

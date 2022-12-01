@@ -1,6 +1,8 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import axios from 'axios'
 import Image from 'next/image'
 import { SmileySad, X } from 'phosphor-react'
+import { useState } from 'react'
 import { Product } from '../../../../contexts/CartContext'
 import { currencyFormatter } from '../../../../utils/formatter'
 import {
@@ -23,6 +25,9 @@ export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
   const quantityItemsInCart = cart.length
   const isCartEmpty = !quantityItemsInCart
 
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
+
   const summary = cart.reduce(
     (acc, product) => {
       acc.purchaseTotal += product.price
@@ -32,6 +37,25 @@ export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
       purchaseTotal: 0,
     }
   )
+
+  async function handleBuyProducts() {
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      const response = await axios.post('/api/checkout', {
+        products: cart,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (error) {
+      setIsCreatingCheckoutSession(false)
+      // Conectar com uma ferramenta de obeservalidade (Datadog/Sentry)
+
+      alert('Falha ao redirecionar ao checkout!')
+    }
+  }
 
   return (
     <Dialog.Portal>
@@ -81,7 +105,12 @@ export default function Cart({ cart, handleRemoveItemFromCart }: CartProps) {
             <span>{currencyFormatter.format(summary.purchaseTotal)}</span>
           </h4>
 
-          <CheckoutButton>Finalizar compra</CheckoutButton>
+          <CheckoutButton
+            disabled={isCreatingCheckoutSession || quantityItemsInCart <= 0}
+            onClick={handleBuyProducts}
+          >
+            Finalizar compra
+          </CheckoutButton>
         </Summary>
       </Content>
     </Dialog.Portal>
